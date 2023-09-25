@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 // @mui
-import { Button, Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 
 import ExpenseForm from '../components/expense-tracker/Form';
 import ExpenseList from '../components/expense-tracker/List';

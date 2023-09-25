@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';

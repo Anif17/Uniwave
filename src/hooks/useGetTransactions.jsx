@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prefer-destructuring */
 import { useEffect, useState } from 'react';
 import { query, collection, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase-config';
