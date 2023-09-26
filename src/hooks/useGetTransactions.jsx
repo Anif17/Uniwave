@@ -19,7 +19,11 @@ export const useGetTransactions = () => {
   const getTransactions = async () => {
     let unsubscribe;
     try {
-      const queryTransactions = query(transactionCollectionRef, where('userID', '==', userID), orderBy('createdAt'));
+      const queryTransactions = query(
+        transactionCollectionRef,
+        where('userID', '==', userID),
+        orderBy('createdAt', 'desc')
+      );
 
       unsubscribe = onSnapshot(queryTransactions, (snapshot) => {
         const docs = [];

@@ -1,10 +1,16 @@
+/* eslint-disable no-unused-vars */
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
+
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
+
+import { useGetTransactions } from '../hooks/useGetTransactions';
+
 // components
 import Iconify from '../components/iconify';
+
 // sections
 import {
   AppTasks,
@@ -16,13 +22,16 @@ import {
   AppWidgetSummary,
   AppCurrentSubject,
   AppConversionRates,
+  AppWidgetExpenses,
+  AppMoneyTimeline,
 } from '../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
-
+  const { transactions, transactionTotals } = useGetTransactions();
+  console.log(transactions);
   return (
     <>
       <Helmet>
@@ -35,23 +44,46 @@ export default function DashboardAppPage() {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+          <Grid item xs={12} sm={6} md={4}>
+            <AppWidgetExpenses
+              title="Total Income"
+              total={transactionTotals.income || 0}
+              icon={'game-icons:receive-money'}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+          <Grid item xs={12} sm={6} md={4}>
+            <AppWidgetExpenses
+              title="Total Expenses"
+              total={transactionTotals.expenses || 0}
+              color="info"
+              icon={'fluent:money-hand-20-regular'}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+          <Grid item xs={12} sm={6} md={4}>
+            <AppWidgetExpenses
+              title="Total Balance"
+              total={transactionTotals.balance || 0}
+              color="warning"
+              icon={'solar:wallet-money-linear'}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+          <Grid item xs={12} md={12} lg={12}>
+            <AppOrderTimeline
+              title="Order Timeline"
+              list={transactions.slice(0, 5).map((transaction) => ({
+                id: transaction.id,
+                title: transaction.description,
+                type: transaction.transactionType,
+                total: transaction.transactionAmount,
+                time: new Date(transaction.createdAt.seconds * 1000), // Convert timestamp to Date
+              }))}
+            />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="Website Visits"
               subheader="(+43%) than last year"
@@ -211,7 +243,7 @@ export default function DashboardAppPage() {
                 { id: '5', label: 'Sprint Showcase' },
               ]}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>
